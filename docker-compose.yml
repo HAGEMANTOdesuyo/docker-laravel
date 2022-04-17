@@ -1,0 +1,49 @@
+version: '3.3'
+services:
+  app1:
+    container_name: apache-php
+    build:
+      context: ./docker/apache-php
+      dockerfile: Dockerfile
+    tty: true
+    volumes:
+      - ./html:/var/www/html
+    working_dir: /var/www/html
+    ports:
+      - 8080:80
+    restart: always
+
+  app2:
+    container_name: phpmyadmin
+    build:
+      context: ./docker/phpmyadmin
+      dockerfile: Dockerfile
+    tty: true
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=db
+      - PMA_USER=root
+      - PMA_PASSWORD=pass
+    volumes:
+      - ./docker/phpmyadmin/sessions:/sessions
+    links:
+      - db
+    ports:
+      - 4040:80
+    restart: always
+
+  db:
+    container_name: mysql
+    build:
+      context: ./docker/mysql
+      dockerfile: Dockerfile
+    environment:
+      - MYSQL_ROOT_PASSWORD=pass
+    volumes:
+      # MySQLの設定ファイル
+      - ./docker/mysql/mysql_conf:/etc/mysql/conf.d
+      # データベースのデータ
+      - ./docker/mysql/data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    restart: always
