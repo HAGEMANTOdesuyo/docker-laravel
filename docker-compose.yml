@@ -7,8 +7,9 @@ services:
       dockerfile: Dockerfile
     tty: true
     volumes:
-      - ./html:/var/www/html
-    working_dir: /var/www/html
+      #- ./html:/var/www/html
+      - ./app:/var/www/app
+    working_dir: /var/www/app
     ports:
       - 8080:80
     restart: always

@@ -7,6 +7,7 @@ RUN apt-get update && \
   # PHPのExtensionをインストール
   #docker-php-ext-install pdo_mysql mysqli mbstring
   docker-php-ext-install pdo_mysql mysqli
+# ドキュメントルート変更
 #RUN sed -i 's!/var/www/html!/var/www/app/public!g' /etc/apache2/sites-available/000-default.conf
 # Laravelで必要になるmodRewriteを有効化する
 RUN mv /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled
